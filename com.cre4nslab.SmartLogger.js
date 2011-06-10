@@ -41,7 +41,8 @@ com.cre4nslab.SmartLogger = {
      * @param {LoggingLevel} level
      */
     setLevel: function(level){
-        if(!(level instanceof this.LoggingLevel)) return;
+        if(!(level instanceof this.LoggingLevel)) 
+            throw new Error('level must be of type com.cre4nslab.SmartLogger.LoggingLevel but ' + typeof(level) + ' found.');
         
         this.level = level
     },
