@@ -41,7 +41,7 @@ com.cre4nslab.SmartLogger = {
      * @param {LoggingLevel} level
      */
     setLevel: function(level){
-        if(!(level instanceof this.Level)) return;
+        if(!(level instanceof this.LoggingLevel)) return;
         
         this.level = level
     },
