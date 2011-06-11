@@ -48,50 +48,58 @@ com.cre4nslab.SmartLogger = {
     },
     
     debug: function(){
-        if(!this.DEBUG.isLoggable()) return;
-        
-        try{
-            console.debug.apply(this, arguments);
-        }
-        catch(e){}
+        Array.push(arguments, this.DEBUG);
+        this.logMessage.apply(this, arguments);
     },
     
     log: function(){
-        if(!this.LOG.isLoggable()) return;
-        
-        try{
-            console.log.apply(this, arguments);
-        }
-        catch(e){}
+        Array.push(arguments, this.LOG);
+        this.logMessage.apply(this, arguments);
     },
     
     info: function(){
-        if(!this.INFO.isLoggable()) return;
-        
-        try{
-            console.info.apply(this, arguments);
-        }
-        catch(e){}
+        Array.push(arguments, this.INFO);
+        this.logMessage.apply(this, arguments);
     },
     
     warn: function(){
-        if(!this.WARN.isLoggable()) return;
-        
-        try{
-            console.warn.apply(this, arguments);
-        }
-        catch(e){}
+        Array.push(arguments, this.WARN);
+        this.logMessage.apply(this, arguments);
     },
     
     error: function(){
-        if(!this.ERROR.isLoggable()) return;
-        
-        try{
-            console.error.apply(this, arguments);
-        }
-        catch(e){}
-    }
+        Array.push(arguments, this.ERROR);
+        this.logMessage.apply(this, arguments);
+    },
     
+    logMessage: function(){
+        var level = Array.pop(arguments);
+        
+        if(!(level instanceof this.LoggingLevel && level.isLoggable())) return;
+        
+        var konsole = null;
+        switch(level.toString()){
+            case 'LOG':
+                konsole = console.log;
+                break
+            case 'DEBUG':
+                konsole = console.debug;
+                break
+            case 'INFO':
+                konsole = console.info;
+                break
+            case 'WARN':
+                konsole = console.warn;
+                break
+            case 'ERROR':
+                konsole = console.error;
+                break
+        }
+        
+        if(konsole !== null){
+            konsole.apply(this, arguments);
+        }
+    }
 }
 
 // Defining the logging level constants
